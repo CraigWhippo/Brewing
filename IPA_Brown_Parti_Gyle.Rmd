@@ -1,0 +1,88 @@
+---
+title: "Greg Walter's Parti Gyle"
+output:
+  html_document:
+    df_print: paged
+---
+
+Batch Size:   10 Gallons  
+Estimated OG: 1.064 for IPA; 1.046 Brown Ale
+
+
+# Ingredients
+
+## Grain Bill
+
+### For both
+
+```{r Grain Bill, include=FALSE}
+a <- 14
+b <- 2
+c <- 1
+```
+
+
+| Grain (lb) | 10 gallons | 
+|-------|---|----|
+|2-Row Pale   |  `r a` |  
+|Crystal 60      | `r b`  |  
+|Roasted 2-Row Pale     |  `r c` | 
+|Total       |  `r  a + b + c` |
+
+### For Brown
+
+Cold steep in 2 quarts started day before, then let steep 8 hrs.  
+
+| Grain (lb) |  5 gallons | 
+|-------|---|----|
+|Coffee Malt   |  0.5 |  
+|Dark Crystal     | 0.5  | 
+|Total       |  1.0 |
+
+
+
+## Hops
+
+### For Brown Ale
+
+| Hop Addition (Oz) | 5 gallons |
+|-------|---|----|
+|Golden Brewers @ 60 min |  1 | 
+|Golden Brewers @ 30 min |  1 | 
+
+
+## For IPA
+
+| Hop Addition (Oz) | 5 gallons |
+|-------|---|----|
+|Chinook @ 60 min |  1 | 
+|Fuggles @ 60 min |  2 | 
+|Citra @ 30 min |  1 | 
+|Citra @ 1 min |  1 | 
+
+
+1 oz Citra, dry hopped in secondary for 36 hrs.
+
+## Other Additions
+
+| Other | 10 gallons | 
+|-------|---|----|
+|Calcium Chloride   |  2 tsp | 
+|Camden Tablet  |  1 |
+
+# Mash Schedule
+
+- 148 ^o^F for 60 min.
+
+# Water Needed
+
+| Water Gallons | 10 gallons |
+|-------|---|----|
+|Total Water Needed |  15.36 | 
+|Mash Water Needed | 5.65 |  
+|Sparge Water Needed|  9.75|
+|Pre-Boil Wort Produced|  12.15 | 
+|Strike Temperature     |  166 | 
+
+# Brew Log
+

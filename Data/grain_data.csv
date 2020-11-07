@@ -1,0 +1,93 @@
+Name,Origin,Type,Color,Must Mash,Potential,Max in batch,Diastic_Power
+Okefenokee,US,Grain,2.7,Yes,1.035,1,112
+Badlands,US,Grain,1.9,Yes,1.035,1,132
+Dakota,US,Grain,5.26,Yes,1.035,0.9,103
+Acid Malt,Germany,Grain,3,Yes,1.027,0.1,0
+Amber Dry Extract,US,Dry Extract,13,No,1.044,1,0
+Amber Liquid Extract,US,Extract,13,No,1.036,1,0
+Amber Malt,United Kingdom,Grain,22,Yes,1.035,0.2,20
+Aromatic Malt,Belgium,Grain,26,Yes,1.036,0.1,29
+Barley Hulls,US,Adjunct,0,No,1,0.05,0
+"Barley, Flaked",US,Grain,2,Yes,1.032,0.2,0
+"Barley, Raw",US,Grain,2,Yes,1.028,0.15,0
+"Barley, Torrefied",US,Grain,2,Yes,1.036,0.4,0
+Biscuit Malt,Belgium,Grain,23,No,1.036,0.1,6
+Black (Patent) Malt,US,Grain,500,No,1.025,0.1,0
+Black Barley (Stout),US,Grain,500,No,1.025,0.1,0
+Brown Malt,United Kingdom,Grain,65,Yes,1.032,0.1,0
+"Brown Sugar, Dark",US,Sugar,50,No,1.046,0.1,0
+"Brown Sugar, Light",US,Sugar,8,No,1.046,0.1,0
+Brumalt,Germany,Grain,23,Yes,1.033,0.1,0
+"Candi Sugar, Amber",Belgium,Sugar,75,No,1.036,0.2,0
+"Candi Sugar, Clear",Belgium,Sugar,1,No,1.036,0.2,0
+"Candi Sugar, Dark",Belgium,Sugar,275,No,1.036,0.2,0
+Cane (Beet) Sugar,US,Sugar,0,No,1.046,0.07,0
+Cara-Pils/Dextrine,US,Grain,2,No,1.033,0.2,0
+Caraamber,US,Grain,30,No,1.035,0.2,0
+Carafoam,US,Grain,2,No,1.033,0.2,0
+Caramel/Crystal Malt – 10L,US,Grain,10,No,1.035,0.2,0
+Caramel/Crystal Malt – 20L,US,Grain,20,No,1.035,0.2,0
+Caramel/Crystal Malt – 30L,US,Grain,30,No,1.035,0.2,0
+Caramel/Crystal Malt – 40L,US,Grain,40,No,1.034,0.2,0
+Caramel/Crystal Malt – 60L,US,Grain,60,No,1.034,0.2,0
+Caramel/Crystal Malt – 80L,US,Grain,80,No,1.034,0.2,0
+Caramel/Crystal Malt -120L,US,Grain,120,No,1.033,0.2,0
+Caramunich Malt,Belgium,Grain,56,No,1.033,0.1,0
+Carared,US,Grain,20,No,1.035,0.2,0
+Caravienne Malt,Belgium,Grain,22,No,1.034,0.1,0
+Chocolate Malt,US,Grain,350,No,1.028,0.1,0
+Chocolate Malt,United Kingdom,Grain,450,No,1.034,0.1,0
+Corn Sugar (Dextrose),US,Sugar,0,No,1.046,0.05,0
+Corn Syrup,US,Sugar,1,No,1.036,0.1,0
+"Corn, Flaked",US,Grain,1,Yes,1.037,0.4,0
+Dark Dry Extract,US,Dry Extract,18,No,1.044,1,0
+Dark Liquid Extract,US,Extract,18,No,1.036,1,0
+Dememera Sugar,United Kingdom,Sugar,2,No,1.046,0.1,0
+Extra Light Dry Extract,US,Dry Extract,3,No,1.044,1,0
+Grits,US,Adjunct,1,No,1.037,0.1,0
+Honey,US,Extract,1,No,1.035,1,0
+Invert Sugar,United Kingdom,Sugar,0,No,1.046,0.1,0
+Light Dry Extract,US,Dry Extract,8,No,1.044,1,0
+Maple Syrup,US,Sugar,35,No,1.03,0.1,0
+Melanoiden Malt,Germany,Grain,20,Yes,1.037,0.15,10
+Mild Malt,United Kingdom,Grain,4,Yes,1.037,1,53
+Milk Sugar (Lactose),US,Sugar,0,No,1.035,0.1,0
+Molasses,US,Sugar,80,No,1.036,0.05,0
+Munich Malt,Germany,Grain,9,Yes,1.037,0.8,72
+Munich Malt – 10L,US,Grain,10,Yes,1.035,0.8,50
+Munich Malt – 20L,US,Grain,20,Yes,1.035,0.8,25
+"Oats, Flaked",US,Grain,1,Yes,1.037,0.3,0
+"Oats, Malted",US,Grain,1,Yes,1.037,0.1,0
+Pale Liquid Extract,US,Extract,8,No,1.036,1,0
+Pale Malt (2 Row) Bel,Belgium,Grain,3,Yes,1.037,1,65
+Pale Malt (2 Row) UK,United Kingdom,Grain,3,Yes,1.036,1,45
+Pale Malt (2 Row) US,US,Grain,2,Yes,1.036,1,140
+Pale Malt (6 Row) US,US,Grain,2,Yes,1.035,1,150
+Peat Smoked Malt,United Kingdom,Grain,3,Yes,1.034,0.2,0
+Pilsner (2 Row) Bel,Belgium,Grain,2,Yes,1.036,1,60
+Pilsner (2 Row) Ger,Germany,Grain,2,Yes,1.037,1,110
+Pilsner (2 Row) UK,United Kingdom,Grain,1,Yes,1.036,1,60
+Pilsner Liquid Extract,US,Extract,4,No,1.036,1,0
+Rice Extract Syrup,US,Extract,7,No,1.032,0.15,0
+Rice Hulls,US,Adjunct,0,No,1,0.05,0
+"Rice, Flaked",US,Grain,1,Yes,1.032,0.25,0
+Roasted Barley,US,Grain,300,No,1.025,0.1,0
+Rye Malt,US,Grain,5,Yes,1.029,0.15,75
+"Rye, Flaked",US,Grain,2,Yes,1.036,0.1,0
+Smoked Malt,Germany,Grain,9,Yes,1.037,1,0
+Special B Malt,Belgium,Grain,180,Yes,1.03,0.1,0
+Special Roast,US,Grain,50,Yes,1.033,0.1,6
+"Sugar, Table (Sucrose)",US,Sugar,1,No,1.046,0.1,0
+Toasted Malt,United Kingdom,Grain,27,Yes,1.033,0.1,0
+Turbinado,United Kingdom,Sugar,10,No,1.044,0.1,0
+Victory Malt,US,Grain,25,Yes,1.034,0.15,50
+Vienna Malt,Germany,Grain,4,Yes,1.036,0.9,50
+Wheat Dry Extract,US,Dry Extract,8,No,1.044,1,0
+Wheat Liquid Extract,US,Extract,8,No,1.036,1,0
+"Wheat Malt, Bel",Belgium,Grain,2,Yes,1.037,0.6,74
+"Wheat Malt, Dark",Germany,Grain,9,Yes,1.039,0.2,10
+"Wheat Malt, Ger",Germany,Grain,2,Yes,1.039,0.6,95
+"Wheat, Flaked",US,Grain,2,Yes,1.035,0.4,0
+"Wheat, Roasted",Germany,Grain,425,Yes,1.025,0.1,0
+"Wheat, Torrified",US,Grain,2,Yes,1.036,0.4,0
+White Wheat Malt,US,Grain,2,Yes,1.04,0.6,130

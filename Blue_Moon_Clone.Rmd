@@ -1,0 +1,65 @@
+---
+title: "Blue Moon Clone"
+output: html_notebook
+---
+![](https://upload.wikimedia.org/wikipedia/en/9/9e/Blue_Moon_2016_logo.jpg)
+
+Batch Size:  5 or 10 Gallons  
+Estimated OG: 1.052 to 1.055   
+
+# Ingredients
+
+## Grain Bill
+
+| Grain (lb) | 5 gallons | 10 gallons |
+|-------|---|----|
+|2-Row Pale   |  6 |  12  |
+|White Wheat      | 5  |  10  |
+|Flaked Oats       |  1 | 2   |
+|Rice Hulls       |  0.5 |  1   |
+|Total       |  12.5 |  24   |
+
+
+
+## Hops
+
+
+| Hop Addition (Oz) | 5 gallons | 10 gallons |
+|-------|---|----|
+|Hallertau @ 60 min |  1 |  2  |
+
+## Other Additions
+
+| Other | 5 gallons | 10 gallons |
+|-------|---|----|
+|Calcium Chloride   |  1 tsp |  2 tsp  |
+|Camden Tablet  |  1 |  1  |
+|Sweet Orange Peel @ 10 min |  2 oz|  4 oz |
+|Coriander @ 10 min |  1 oz|  2 oz |
+
+
+Grind Coriander in Coffee Grinder
+
+# Mash Schedule
+
+- 154 ^o^F for 60 min.
+
+# Water Needed
+
+| Water Gallons | 5 gallons | 10 gallons |
+|-------|---|----|
+|Total Water Needed |  8.99 |  16.4  |
+|Mash Water Needed | 4.16  |  8.31  |
+|Sparge Water Needed|  4.83 | 8.09   |
+|Pre-Boil Wort Produced|  6.37 |  12.15   |
+|Strike Temperature     |  166.63 |  166.3   |
+
+# Brew Log
+
+## September 20, 2020
+
+Brewed 10 gallon batch. Mash temp was a little low at 149 degrees F. Final gravity 1.054.   Boil was a tad aggressive. Back off next time.
+
+# October 11, 2020
+
+Kegged two 5 gallon corny kegs.  Citrus is overwhelming.  Tasted like a mimosa.  Consider decreasing sweet orange peel to 3 oz next time.  No problems with the kegging.
