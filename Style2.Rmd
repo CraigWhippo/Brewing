@@ -1,0 +1,172 @@
+---
+title: "Altbier"
+output: html_document
+---
+
+```{r Packages, include=FALSE}
+library(tidyverse)
+library(glue)
+library(gt)
+library(textclean)
+```
+
+```{r Style, echo=FALSE, message=FALSE, warning=FALSE}
+Style_Data  <- read_csv("Data/2015_Guidelines.csv")
+
+Style_Number <- "19C"
+
+Selected_Style <- Style_Data %>% 
+  filter(Number == Style_Number)
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+gt_table1 <- Selected_Style %>% 
+  select(Number, `BJCP Categories`, Styles, `Style Family`, Origin, `Style History`, `Commercial Examples`)  %>% 
+  gt() 
+gt_table1
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+gt_table1 <- Selected_Style %>% 
+  select(History)  %>% 
+  gt() %>% 
+    tab_style(cell_text(align = "left"), cells_title()) 
+gt_table1
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+gt_table1 <- Selected_Style %>% 
+  select(`Overall Impression`)  %>% 
+  gt() %>% 
+    tab_style(cell_text(align = "left"), cells_title()) 
+gt_table1
+
+
+gt_table2 <- Selected_Style %>% 
+  select(`Aroma`, Appearance)  %>% 
+  gt() %>% 
+    tab_style(cell_text(align = "left"), cells_title()) 
+gt_table2
+
+
+```
+
+## Style Vital Statistics
+
+```{r Vital Stats, echo=FALSE, message=FALSE, warning=FALSE}
+
+Vital_Statistics <- read_csv("Data/StyleData.csv") %>% 
+  filter(Number == Style_Number) %>% 
+  select(ABV_Low, ABV_High, ABV_Avg, IBU_Low, IBU_Avg, IBU_High, SRM_Low, SRM_Avg, SRM_High, OG_Low, OG_Avg, OG_High, FG_Low, FG_Avg, FG_High, BU_GU, Relative_Bitterness)
+
+
+gt_table <- gt(data = Vital_Statistics) %>% 
+   tab_style(cell_text(align = "left"), cells_title()) %>% 
+    tab_source_note(
+    source_note = md("Reference: *Beer Judge Certification Program* (2015)")
+  ) %>% 
+  tab_spanner(
+    label = "ABV",
+    columns = vars(ABV_Low, ABV_Avg, ABV_High)
+  ) %>% 
+  tab_spanner(
+    label = "IBU",
+    columns = vars(IBU_Low, IBU_Avg, IBU_High)
+  ) %>% 
+  tab_spanner(
+    label = "SRM",
+    columns = vars(SRM_Low, SRM_Avg, SRM_High)
+  ) %>% 
+  tab_spanner(
+    label = "OG",
+    columns = vars(OG_Low, OG_Avg, OG_High)
+  ) %>%   
+  tab_spanner(
+    label = "FG",
+    columns = vars(FG_Low, FG_Avg, FG_High)
+  ) %>% 
+  cols_label(
+    ABV_Low = "Min",
+    ABV_Avg = "Average",
+    ABV_High = "Max",
+    IBU_Low = "Min",
+    IBU_Avg = "Average",
+    IBU_High = "Max",
+    SRM_Low = "Min",
+    SRM_Avg = "Average",
+    SRM_High = "Max",
+    OG_Low = "Min",
+    OG_Avg = "Average",
+    OG_High = "Max",
+    FG_Low = "Min",
+    FG_Avg = "Average",
+    FG_High = "Max",
+    BU_GU = "BU:GU",
+    Relative_Bitterness = "RBR"
+  ) %>% 
+    cols_align(
+    align = "center"
+  ) %>% 
+  tab_options(table.align = "left")
+
+gt_table
+```
+
+# Ingredients
+
+
+
+```{r Fermentables, include=FALSE}
+grain_data <- read_csv("Data/grain_data.csv")
+
+Fermentables <- tribble(
+  ~Name,     ~Malster,    ~Weight,   ~Cost_per_pound,
+  #--------|-----------|------------|--------------|
+  "Okefenokee", "Two Track", 3.6, 0.65,
+  "Badlands", "Two Track", 8.5, 0.65
+) %>% left_join(grain_data) %>% 
+  mutate(Percent = 100 * round(Weight/sum(Weight),1)) %>% 
+  rename('Diastic Power (Linter)' = Diastic_Power) %>% 
+  rename(`Weight (lbs)` = Weight) %>% 
+  rename(`Color (Lovibond)` = Color) %>% 
+  mutate(Cost = (`Cost_per_pound` * `Weight (lbs)`))
+```
+
+
+
+```{r Fermentable Table, echo=FALSE, message=FALSE, warning=FALSE}
+Fermentables %>% select(-Origin, -Type, -`Max in batch`, -`Cost_per_pound`) %>% 
+gt() %>% 
+    tab_header(
+    title = "Fermentables") %>% 
+    tab_style(cell_text(align = "left"), cells_title()) %>% 
+    cols_move(
+    columns = vars(Percent),
+    after = vars(Malster)
+  ) %>%
+  grand_summary_rows(
+    columns = vars(Percent, `Weight (lbs)`, Cost),
+    fns = list(
+      Total = ~sum(.)),
+    formatter = fmt_number,
+    use_seps = FALSE
+  ) %>% 
+  tab_options(table.align = "left") %>% 
+  fmt_currency(columns = vars(Cost),
+               currency = "USD") %>% 
+  cols_align(
+    align = "center"
+  )
+```
+
+## Hops
+
+## Other Ingredients
+
+## Yeast
+
+# Batch Vital Statistics

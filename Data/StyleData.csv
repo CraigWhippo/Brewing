@@ -1,6 +1,4 @@
-Style,Category,#,ABV_Low,ABV_High,ABV_Avg,IBU_Low,IBU_High,IBU_Avg,SRM_Low,SRM_High,SRM_Avg,OG_Low,OG_High,OG_Avg,A_degree_P_Avg,FG_Low,FG_High,FG_Avg,"°P
-Avg",ADF,BU_GU,"Relative
-Bitterness",RDF,Year,RE (SG),RE (°P),"BU:RE
+Style,Category,Number,ABV_Low,ABV_High,ABV_Avg,IBU_Low,IBU_High,IBU_Avg,SRM_Low,SRM_High,SRM_Avg,OG_Low,OG_High,OG_Avg,A_degree_P_Avg,FG_Low,FG_High,FG_Avg,"P_Avg",ADF,BU_GU,"Relative_Bitterness",RDF,Year,RE (SG),RE (P),"BU:RE
 (°P)","BU:REU
 (SG)","BU:FG
 (°P)","BU:FGU

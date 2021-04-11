@@ -1,0 +1,522 @@
+---
+title: "Little Blue Stem Wit"
+author: "Craig W. Whippo"
+date: "December 3, 2020"
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+```{r Packages, include=FALSE}
+library(tidyverse)
+library(gt)
+library(Beer)
+
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+final_volume <- 5.5
+brew_house_efficiency <- 75
+pre_boil_volume <- 6 #Gallons
+elevation <- 2511 #ft
+mash_thickness <- 1.6 #quarts/lb
+grain_temp <- 63 #temeperature of the grain
+cooler_loss <- 7 #thermal loss of cooler
+mash_temp <- 151 #mash temperature
+retention_ratio = 0.125 #gallons per pound
+step_water <- 0 #gallons
+mash_duration <- 60 #minutes
+```
+
+```{r Style, echo=FALSE, message=FALSE, warning=FALSE}
+Style_Data <- read_csv("Data/2015_Guidelines.csv") 
+
+srm_hex_color <- read_csv("Data/srm_hex_color.csv")
+
+Style_Number <- "24A"	
+
+
+Selected_Style <- Style_Data %>% 
+  filter(Number == Style_Number)
+
+
+```
+
+# Beer Judge Certification Program Style
+
+> **Style:** `r Selected_Style$Styles`\
+> **Number:** `r Selected_Style$Number`\
+> **BJCP Category:** `r Selected_Style$"BJCP Categories"`\
+> **Style Family:** `r Selected_Style$"Style Family"`\
+> **Style Comparison:** `r Selected_Style$"Style Comparison"`\
+> **Commercial Examples:** `r Selected_Style$"Commercial Examples"`
+
+## History
+
+> **Origin:** `r Selected_Style$"Origin"`\
+> **Style History:** `r Selected_Style$"Style History"`\
+> **History:** `r Selected_Style$"History"`
+
+## Sensory
+
+> **Overall Impression:** `r Selected_Style$"Overall Impression"` **Aroma:** `r Selected_Style$"Aroma"` **Appearance:** `r Selected_Style$"Appearance"` **Flavor:** `r Selected_Style$"Flavor"` **Mouthfeel:** `r Selected_Style$"Mouthfell"`
+
+## Ingredients
+
+> **Characteristic Ingredients:** `r Selected_Style$"Characteristic Ingredients"`
+
+## Style Vital Statistics
+
+```{r Vital Stats, echo=FALSE, message=FALSE, warning=FALSE}
+
+Vital_Statistics <- read_csv("Data/StyleData.csv") %>% 
+  filter(Number == Style_Number) %>% 
+  select(OG_Low, OG_Avg, OG_High, FG_Low,  FG_Avg, FG_High, ABV_Low, ABV_High, ABV_Avg, IBU_Low, IBU_Avg, IBU_High, BU_GU, Relative_Bitterness, SRM_Low, SRM_Avg, SRM_High )
+
+# Extract SRM
+SRM_Low <- Vital_Statistics %>% 
+  select(SRM_Low)
+SRM_High <- Vital_Statistics %>% 
+  select(SRM_High)
+SRM_Avg <- Vital_Statistics %>% 
+  select(SRM_Avg)
+SRM_HEX_Low <- srm_hex_color %>% 
+  filter(SRM == SRM_Low$SRM_Low)
+SRM_HEX_High <- srm_hex_color %>% 
+  filter(SRM == SRM_High$SRM_High)
+SRM_HEX_Avg <- srm_hex_color %>% 
+  filter(SRM == SRM_Avg$SRM_Avg)
+
+gt_table <- gt(data = Vital_Statistics) %>% 
+   tab_style(cell_text(align = "left"), cells_title()) %>% 
+    tab_source_note(
+    source_note = md("Reference: *Beer Judge Certification Program* (2015)")
+  ) %>% 
+    tab_spanner(
+    label = "OG",
+    columns = vars(OG_Low, OG_Avg, OG_High)
+  ) %>%  
+  tab_spanner(
+    label = "ABV",
+    columns = vars(ABV_Low, ABV_Avg, ABV_High)
+  ) %>% 
+  tab_spanner(
+    label = "IBU",
+    columns = vars(IBU_Low, IBU_Avg, IBU_High)
+  ) %>% 
+  tab_spanner(
+    label = "SRM",
+    columns = vars(SRM_Low, SRM_Avg, SRM_High)
+  ) %>% 
+  tab_spanner(
+    label = "FG",
+    columns = vars(FG_Low, FG_Avg, FG_High)
+  ) %>% 
+  cols_label(
+    ABV_Low = "Min",
+    ABV_Avg = "Average",
+    ABV_High = "Max",
+    IBU_Low = "Min",
+    IBU_Avg = "Average",
+    IBU_High = "Max",
+    SRM_Low = "Min",
+    SRM_Avg = "Average",
+    SRM_High = "Max",
+    OG_Low = "Min",
+    OG_Avg = "Average",
+    OG_High = "Max",
+    FG_Low = "Min",
+    FG_Avg = "Average",
+    FG_High = "Max",
+    BU_GU = "BU:GU",
+    Relative_Bitterness = "RBR"
+  ) %>% 
+    cols_align(
+    align = "center"
+  ) %>% 
+  tab_options(table.align = "left") %>% 
+  data_color(
+  columns  = vars(SRM_Low),
+  colors = SRM_HEX_Low$Code,
+  alpha = NULL,
+  apply_to = c("fill", "text"),
+  autocolor_text = TRUE
+)  %>% 
+  data_color(
+  columns  = vars(SRM_Avg),
+  colors = SRM_HEX_Avg$Code,
+  alpha = NULL,
+  apply_to = c("fill", "text"),
+  autocolor_text = TRUE
+)%>% 
+  data_color(
+  columns  = vars(SRM_High),
+  colors = SRM_HEX_High$Code,
+  alpha = NULL,
+  apply_to = c("fill", "text"),
+  autocolor_text = TRUE
+)
+
+gt_table
+```
+
+# Home Brew
+
+## Ingredients
+
+### Grains
+
+```{r Fermentables, include=FALSE}
+grain_data <- read_csv("Data/grains.csv")
+
+Fermentables <- tribble(
+  ~Grain,                            ~Weight,   ~Cost_per_pound,
+  #------------------------------|------------|--------------|
+  "Two-Row Okefenokee Pale Malt",  5, 0.65,
+  "Rahr White Wheat", 4, 1.35,
+  
+) %>% left_join(grain_data) %>% 
+  mutate(Percent = round(100 * (Weight/sum(Weight)),1)) %>% 
+  rename(`Diastic Power (Linter)` = Power) %>% 
+  rename(`Weight (lbs)` = Weight) %>%
+  mutate(SRM_Avg = round((SRM_Low + SRM_High)/2),2)%>% 
+  mutate(Cost = (`Cost_per_pound` *  `Weight (lbs)`)) %>% 
+  mutate(Potential = round(Potential, 4))
+```
+
+```{r Fermentable Table, echo=FALSE, message=FALSE, warning=FALSE}
+
+Fermentables %>% select(Grain, Manufacturer, Origin, Type, `Must Mash?`, `Weight (lbs)`, Potential, SRM_Avg, `Diastic Power (Linter)`, Cost) %>% 
+gt() %>% 
+    tab_style(cell_text(align = "left"), cells_title()) %>% 
+  tab_options(table.align = "left") %>% 
+  cols_align(
+    align = "center"
+  ) %>% 
+    cols_align(
+    align = "left",
+    columns = vars(Grain, Manufacturer, Origin, Type)
+  ) %>% 
+  cols_label(
+    SRM_Avg = "SRM",
+    `Must Mash?` = "Mash") %>% 
+  fmt_currency(columns = vars(Cost),
+               currency = "USD")
+```
+
+### Adjuncts
+
+```{r Adjuncts, echo=FALSE, message=FALSE, warning=FALSE}
+
+adjuncts_data <- read_csv("Data/adjunts.csv") %>% 
+    mutate(SRM = `Color` + 0.04662 * (Color)^2) %>% 
+  mutate(SRM = round(SRM, 2)) %>% 
+  mutate(Potential = 1 + `PPG`/1000)
+  
+Adjuncts <- tribble(
+  ~Adjunct,                       ~Weight,   ~Cost_per_pound,
+  #------------------------------|------------|--------------|
+  "Oats Flaked",  1.0, 1.89,
+  "Rice Hulls", 0.5, 1.57
+) %>% left_join(adjuncts_data) %>% 
+  mutate(Cost = Weight * Cost_per_pound)
+
+
+
+Adjuncts %>% select(Adjunct, Type, `Weight`, Mashing, Potential, SRM, Cost, Description) %>% 
+gt()  %>% 
+    tab_style(cell_text(align = "left"), cells_title()) %>% 
+  tab_options(table.align = "left") %>% 
+  fmt_currency(columns = vars(Cost),
+               currency = "USD") %>% 
+  cols_align(
+    align = "center"
+  ) %>% 
+  cols_label(
+    Weight = "Weight (lbs)") %>% 
+    cols_align(
+    align = "left",
+    columns = vars(Adjunct, Type, Description)
+  ) 
+```
+
+### Specialty Ingredients
+
+```{r Speciality, echo=FALSE, message=FALSE, warning=FALSE}
+
+speciality_data <- read_csv("Data/speciality.csv")
+
+Speciality <- tribble(
+  ~Ingredient,          ~Weight,   ~Time,        ~Cost_per_oz,
+  #--------------------|------------|---------|---------
+  "Coriander",  1, 10, 2.79,
+  "Sweet Orange Peel", 1,  10, 3.49,
+) %>%  mutate(Cost = Weight * Cost_per_oz) %>% 
+  select(-Cost_per_oz)
+
+Speciality %>% 
+gt()  %>% 
+    tab_style(cell_text(align = "left"), cells_title()) %>% 
+  tab_options(table.align = "left") %>% 
+  fmt_currency(columns = vars(Cost),
+               currency = "USD") %>% 
+  cols_align(
+    align = "center"
+  ) %>% 
+  cols_label(
+    Weight = "Weight (Oz)",
+    Time = "Time (min)") %>% 
+  cols_align(
+    align = "left",
+    columns = vars(Ingredient)
+  ) 
+```
+
+### Hops
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+hops_data <- read_csv("Data/hops.csv") %>% 
+  mutate(Alpha_Acid_AVG = (Alpha_Acid_LOW + Alpha_Acid_HIGH)/2) %>% 
+   mutate(Beta_Acid_AVG = (Beta_Acid_LOW + Beta_Acid_HIGH)/2) %>% 
+   mutate(Total_Oil_AVG = (Total_Oil_LOW + Total_Oil_HIGH)/2) %>% 
+    mutate(Co_Humulone_AVG = (Co_Humulone_LOW + Co_Humulone_HIGH)/2) %>% 
+  mutate(Myrcene_AVG = (Myrcene_LOW + Myrcene_HIGH)/2) %>% 
+  mutate(Caryophyllene_AVG = (Caryophyllene_LOW + Caryophyllene_HIGH)/2) %>% 
+  mutate(Humulene_AVG = (Humulene_LOW + Humulene_HIGH)/2) 
+
+hops <- tribble(
+  ~Variety,   ~Weight,    ~Time,        ~Cost_per_oz,
+  #---------|------------|---------|---------
+  "Hallertauer Mittelfrüh",  1, 60, 2.49,
+) %>%  mutate(Cost = Weight * Cost_per_oz) %>% 
+  select(-Cost_per_oz)  %>% 
+  left_join(hops_data)
+
+
+
+hops %>% select(Variety, Origin, Type, Weight, Time, Alpha_Acid_AVG, Beta_Acid_AVG, Total_Oil_AVG, Co_Humulone_AVG, Myrcene_AVG, Caryophyllene_AVG, Humulene_AVG, Cost) %>%
+  gt()  %>% 
+  tab_style(cell_text(align = "left"), cells_title()) %>% 
+  tab_options(table.align = "left") %>% 
+  fmt_currency(columns = vars(Cost),
+               currency = "USD") %>% 
+  cols_align(
+    align = "center"
+  ) %>% 
+    cols_label(
+    Weight = "Weight (Oz)",
+    Time = "Time (min)",
+    Alpha_Acid_AVG = "Alpha Acid",
+    Beta_Acid_AVG = "Beta Acid",
+    Total_Oil_AVG = "Total Oil",
+    Co_Humulone_AVG = "Co-Humulone (%)",
+    Myrcene_AVG = "Myrcene (%)",
+    Caryophyllene_AVG = "Caryophyllene (%)",
+    Humulene_AVG = "Humulene (%)") %>% 
+    cols_align(
+    align = "left",
+    columns = vars(Variety, Origin, Type)
+  ) 
+
+
+
+
+
+```
+
+### Yeast
+
+```{r Yeast, echo=FALSE, message=FALSE, warning=FALSE}
+strain <- "US-05"
+yeast_data <- read_csv("Data/yeast.csv") %>% 
+  filter(Strain == strain) %>% 
+  select(-Substitutions, -`Best Styles`)
+
+yeast_data <- yeast_data %>% select(-Notes) %>% 
+  mutate(Attenuation_AVG = (Apparant_Attenuation_Range_LOW + Apparant_Attenuation_Range_HIGH)/2) %>% 
+  mutate(Cost = 4.99)
+
+gt(yeast_data) %>% 
+  tab_style(cell_text(align = "left"), cells_title()) %>% 
+  tab_spanner(
+    label = "Temperature",
+    columns = vars(Fermentation_Temp_Range_LOW, Fermentation_Temp_Range_HIGH)
+  ) %>% 
+    tab_spanner(
+    label = "Attenuation",
+    columns = vars(Apparant_Attenuation_Range_LOW, Attenuation_AVG, Apparant_Attenuation_Range_HIGH)
+  )  %>% 
+    cols_label(
+    Apparant_Attenuation_Range_LOW = "Low",
+    Attenuation_AVG = "Average",
+    Apparant_Attenuation_Range_HIGH = "High",
+    Fermentation_Temp_Range_LOW = "Low",
+    Fermentation_Temp_Range_HIGH = "High",
+    Alcohol_Tolerance = "Alchohol tolerance (%)"
+    ) %>% 
+  fmt_currency(columns = vars(Cost),
+               currency = "USD") %>% 
+  cols_align(
+    align = "center")
+```
+
+## Recipe Vital Statistics
+
+```{r Recipe Vital Statistics, echo=FALSE, message=FALSE, warning=FALSE}
+Attenuation <- yeast_data %>% select(Attenuation_AVG)
+
+Grains <- Fermentables %>% select(`Weight (lbs)`, Potential, SRM_Avg, `Diastic Power (Linter)`) %>%
+  rename(Weight = `Weight (lbs)` ) %>% 
+  rename(Power =  `Diastic Power (Linter)`) %>% 
+  rename(SRM = SRM_Avg) %>% 
+  bind_rows(select(Adjuncts, Weight, Potential, SRM)) %>% 
+  bind_cols(Attenuation) %>% 
+  mutate(Power = replace_na(Power, 0)) %>% 
+  mutate(Power = as.numeric(Power))
+
+
+Vitals <- Grains %>% 
+  summarise(
+    OG = get_OG(Weight, Potential, brew_house_efficiency, final_volume),
+    FG = get_FG(Weight, Potential, brew_house_efficiency, final_volume, Attenuation_AVG),
+    ABV = get_ABV(OG, FG),
+    SRM = get_SRM(Weight, SRM, final_volume),
+    Power = round(get_mash_power(Weight, Power),0)) %>% head(1)
+
+
+
+IBUs <- hops %>% 
+  summarise(IBU_Tinseth = get_tinseth(Alpha_Acid_AVG/100, Weight, final_volume, Vitals$OG, Time),
+            IBU_Rager = get_rager(Alpha_Acid_AVG/100, Weight, final_volume, Vitals$OG, Time),
+            IBU_Garetz = get_garetz(Alpha_Acid_AVG/100, Weight, final_volume, Vitals$OG, Time, Vital_Statistics$IBU_Avg, pre_boil_volume, elevation),
+            IBU_Daniels = get_daniels(Alpha_Acid_AVG/100, Weight, final_volume, Vitals$OG, Time),
+            IBU = round((IBU_Tinseth + IBU_Rager + IBU_Garetz + IBU_Daniels)/4,1))
+Vitals <- Vitals %>%  bind_cols(IBUs)
+
+Grain_Costs <- select(Fermentables, Cost) %>% 
+          summarise(Cost = sum(Cost)) 
+Adjunct_Costs <- select(Adjuncts, Cost) %>% 
+          summarise(Cost = sum(Cost)) 
+Specialty_Costs <- select(Speciality, Cost) %>% 
+          summarise(Cost = sum(Cost)) 
+Hop_Costs <- select(hops, Cost) %>% 
+          summarise(Cost = sum(Cost)) 
+Yeast_Costs <- select(yeast_data, Cost) %>% 
+          summarise(Cost = sum(Cost)) 
+
+Total_Costs <- Grain_Costs %>% 
+  bind_rows(Adjunct_Costs) %>% 
+  bind_rows(Specialty_Costs) %>% 
+  bind_rows(Hop_Costs) %>% 
+  bind_rows(Yeast_Costs) %>% 
+  summarise(Total_Costs = sum(Cost))
+
+Vitals <- Vitals %>%  bind_cols(Total_Costs) %>% 
+  mutate(initial_plato = get_plato(OG)) %>% 
+  mutate(final_plato = get_plato(FG)) %>% 
+  mutate(RE = get_real_extract(initial_plato, final_plato)) %>% 
+  mutate(ADF = get_apparent_attenuation(initial_plato, final_plato)) %>% 
+  mutate(real_attenuation = get_real_attenuation(RE, initial_plato)) %>% 
+  mutate(ABW = get_ABW(ABV, FG)) %>% 
+  mutate(calories = get_calories(ABW, RE, FG)) %>% 
+  mutate(GU_to_BU = get_BU_to_GU(OG, IBU)) %>% 
+  mutate(RBR = get_RBR(GU_to_BU, ADF)) %>% 
+  mutate(PG = get_boil_gravity(final_volume, OG, pre_boil_volume)) %>% 
+  mutate(final_volume = final_volume) %>% 
+  mutate(pre_boil_volume = pre_boil_volume)
+
+SRM_HEX_Reciepe <- srm_hex_color %>% 
+  filter(SRM == Vitals$SRM)
+
+Vitals %>% select(SRM, pre_boil_volume, final_volume, PG, OG,  FG, Power, initial_plato, final_plato, RE, ADF, ABV, ABW, calories, IBU, GU_to_BU, RBR, Total_Costs) %>% 
+  gt() %>% 
+  tab_style(cell_text(align = "left"), cells_title()) %>% 
+  fmt_currency(columns = vars(Total_Costs),
+               currency = "USD") %>% 
+  cols_align(align = "center") %>% 
+  fmt_number(
+    columns = vars(ADF, GU_to_BU, RBR),
+    decimals = 2,
+    use_seps = FALSE
+  ) %>% 
+  fmt_number(
+    columns = vars(PG),
+    decimals = 3,
+    use_seps = FALSE
+  ) %>% 
+      cols_label(
+    initial_plato = "Initial",
+    final_plato = "Final",
+    calories = "Calories",
+    GU_to_BU = "GU:BU",
+    Total_Costs = "Total Cost",
+    final_volume = "Final",
+    pre_boil_volume = "Pre-Boil"
+    ) %>% 
+    tab_spanner(
+    label = "Plato",
+    columns = vars(initial_plato, final_plato)) %>% 
+    tab_spanner(
+    label = "Volume (gallons)",
+    columns = vars(final_volume, pre_boil_volume)) %>%
+  data_color(
+  columns  = vars(SRM),
+  colors = SRM_HEX_Reciepe$Code,
+  alpha = NULL,
+  apply_to = c("fill", "text"),
+  autocolor_text = TRUE
+) %>%  tab_options(table.align = "left")
+
+
+
+```
+
+## Mash Schedule
+
+```{r Mash and Sparge, echo=FALSE, message=FALSE, warning=FALSE}
+
+Mash_Data <- Grains %>% 
+  summarise(Grain_Weight = sum(Weight)) %>% 
+  mutate(Mash_Thickness = mash_thickness) %>% 
+  mutate(Strike_Volume = get_strike_volume(sum(Grains$Weight), mash_thickness)/4) %>% 
+  mutate(Grain_Temp = grain_temp) %>% 
+  mutate(Mash_temp = mash_temp) %>% 
+  mutate(Mash_duration = mash_duration) %>% 
+  mutate(Strike_Temp = get_strike_temp(Mash_Thickness, grain_temp, mash_temp, cooler_loss)) %>% 
+  mutate(Grain_Absorption = get_grain_absorption(Grain_Weight, retention_ratio)/4) %>% 
+  mutate(First_Addition = get_first_running_addition(pre_boil_volume, Grain_Weight, mash_thickness, 0, retention_ratio)) %>% 
+  mutate(Second_Addition =  get_second_running_addition(pre_boil_volume)) %>% 
+  mutate(Total_Sparge = First_Addition + Second_Addition)
+         
+
+
+    
+Mash_Data %>% select(Grain_Weight, Grain_Temp, Mash_duration, Mash_temp, Mash_Thickness, Strike_Volume, Strike_Temp, Grain_Absorption, First_Addition, Second_Addition, Total_Sparge) %>% 
+  gt()
+    
+            
+         
+        
+         
+         
+
+
+```
+
+\#The Boil
+
+## Fermentation
+
+## Priming
+
+## Kegging
+
+# Outcome
+
+## Statistics
+
+## Description
+
+### Appearance
